@@ -35,7 +35,7 @@ to go
     if color mod 10 < 1  [ die ]     ;; die if we are almost at black
   ]
   ask fireflies [
-    hatch-tails 1 [set size asd]
+    hatch-tails 1 [set size1 set color lime]
     move
     increment-clock
     if nudge-clock?
