@@ -1,4 +1,9 @@
-turtles-own
+globals [ tail-fade-rate ]
+breed [fireflies firefly]
+breed [tails tail]    ; segments of tail that follow the path of the turtles (fireflies)
+tails-own [age]
+
+fireflies-own
 [ clock        ;; each firefly's clock
   threshold    ;; the clock tick at which a firefly stops its flash
   reset-level  ;; the clock tick a firefly will reset to when it is triggered by other flashing
@@ -7,7 +12,9 @@ turtles-own
 
 to setup
   clear-all
-  create-turtles number
+  set-default-shape tails "line"
+  set tail-fade-rate 0.3 ;; this would be better set by a slider on the interface
+  create-fireflies number
     [ setxy random-xcor random-ycor
       set shape "butterfly"
       set clock random (round cycle-length)
@@ -23,7 +30,12 @@ to setup
 end
 
 to go
-  ask turtles [
+  ask tails [
+    set color color - tail-fade-rate ;; make tail color darker
+    if color mod 10 < 1  [ die ]     ;; die if we are almost at black
+  ]
+  ask fireflies [
+    hatch-tails 1 [set size 1 set color lime]
     move
     increment-clock
     if nudge-clock?
@@ -32,7 +44,7 @@ to go
       [ look ]
     ]
   ]
-  ask turtles [
+  ask fireflies [
     recolor
   ]
   tick
@@ -51,7 +63,7 @@ end
 
 to move ; turtle procedure
   rt random-float 90 - random-float 90
-  fd .5
+  fd 1
 end
 
 to increment-clock ; turtle procedure
@@ -64,34 +76,6 @@ to look ; turtle procedure
   if count turtles in-radius 1 with [color = yellow] >= flashes-to-reset
     [ set clock reset-level ]
 end
-
-
-
-;globals [ tail-fade-rate ]
-;breed [heads head]    ; turtles that move at random
-;breed [tails tail]    ; segments of tail that follow the path of the head
-
-;to setup
-;  clear-all              ;; assume that the patches are black
-;  set-default-shape tails "line"
-;  set tail-fade-rate 0.3 ;; this would be better set by a slider on the interface
-;  create-heads 5
-;  reset-ticks
-;end
-
-;to go
-;  ask tails [
-;    set color color - tail-fade-rate ;; make tail color darker
-;    if color mod 10 < 1  [ die ]     ;; die if we are almost at black
-;  ]
-;  ask heads [
-;    hatch-tails 1
-;    fd 1
-;    rt random 10
-;    lt random 10
-;  ]
-;  tick
-;end
 @#$#@#$#@
 GRAPHICS-WINDOW
 300
@@ -129,7 +113,7 @@ number
 number
 0
 500
-250.0
+160.0
 10
 1
 NIL
@@ -159,7 +143,7 @@ flash-length
 flash-length
 1
 10
-3.0
+4.0
 1
 1
 NIL
@@ -251,7 +235,7 @@ CHOOSER
 strategy
 strategy
 "delay" "advance"
-1
+0
 
 SWITCH
 87
@@ -260,7 +244,7 @@ SWITCH
 220
 Nudge-Clock?
 Nudge-Clock?
-1
+0
 1
 -1000
 
