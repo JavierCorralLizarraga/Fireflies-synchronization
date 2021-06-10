@@ -17,7 +17,7 @@ to setup
         set window -1 ]
       [ set reset-level 0
         set window (threshold + 1) ]
-      set size 4  ;; easier to see
+      set size   ;; easier to see
       recolor ]
   reset-ticks
 end
@@ -125,8 +125,8 @@ SLIDER
 number
 number
 0
-500
-250.0
+1000
+180.0
 10
 1
 NIL
