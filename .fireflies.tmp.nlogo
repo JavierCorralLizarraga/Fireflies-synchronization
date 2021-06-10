@@ -17,7 +17,7 @@ to setup
         set window -1 ]
       [ set reset-level 0
         set window (threshold + 1) ]
-      set size   ;; easier to see
+      set size 4  ;; easier to see
       recolor ]
   reset-ticks
 end
@@ -26,6 +26,7 @@ to go
   ask turtles [
     move
     increment-clock
+
     if ( (clock > window) and (clock >= threshold) )
       [ look ]
   ]
@@ -125,8 +126,8 @@ SLIDER
 number
 number
 0
-1000
-180.0
+500
+250.0
 10
 1
 NIL

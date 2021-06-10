@@ -26,8 +26,11 @@ to go
   ask turtles [
     move
     increment-clock
+    if nudge-clock?
+    [
     if ( (clock > window) and (clock >= threshold) )
       [ look ]
+    ]
   ]
   ask turtles [
     recolor
@@ -156,7 +159,7 @@ flash-length
 flash-length
 1
 10
-1.0
+3.0
 1
 1
 NIL
@@ -248,7 +251,7 @@ CHOOSER
 strategy
 strategy
 "delay" "advance"
-0
+1
 
 SWITCH
 87
